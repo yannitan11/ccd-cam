@@ -52,6 +52,17 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
+/* Switchable paper styles (default blue lives in :root) */
+html[data-paper="red"] {
+  --grid: rgba(200, 96, 96, 0.16);
+  --grid-strong: rgba(200, 96, 96, 0.27);
+}
+html[data-paper="plain"] {
+  --grid: transparent;
+  --grid-strong: transparent;
+}
+html[data-paper="plain"] .paper-doodles { display: none; }
+
 /* Hand-drawn doodles scattered on the paper */
 .paper-doodles {
   position: fixed;
@@ -646,6 +657,50 @@ body.play-open { overflow: hidden; }
   min-width: 64px;
   text-align: center;
   text-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
+}
+
+/* --- Paper switcher ------------------------------------------------------- */
+
+.paper-switch {
+  position: fixed;
+  left: 16px;
+  bottom: 16px;
+  z-index: 45;
+  display: flex;
+  gap: 8px;
+  padding: 7px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.72);
+  border: 1.5px solid rgba(120, 112, 100, 0.28);
+  box-shadow: var(--shadow-soft);
+  backdrop-filter: blur(4px);
+}
+.swatch {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  padding: 0;
+  cursor: pointer;
+  border: 1.5px solid rgba(120, 112, 100, 0.35);
+  background-color: #efe9df;
+  background-repeat: repeat;
+  transition: transform 0.12s ease;
+}
+.swatch:hover { transform: translateY(-1px) scale(1.05); }
+.swatch--blue {
+  background-image:
+    repeating-linear-gradient(0deg, transparent 0 5px, rgba(92, 118, 196, 0.6) 5px 6px),
+    repeating-linear-gradient(90deg, transparent 0 5px, rgba(92, 118, 196, 0.6) 5px 6px);
+}
+.swatch--red {
+  background-image:
+    repeating-linear-gradient(0deg, transparent 0 5px, rgba(200, 96, 96, 0.6) 5px 6px),
+    repeating-linear-gradient(90deg, transparent 0 5px, rgba(200, 96, 96, 0.6) 5px 6px);
+}
+.swatch--plain { background-image: none; }
+.swatch[aria-pressed="true"] {
+  border-color: #2c2a26;
+  box-shadow: 0 0 0 2px #fff, 0 0 0 3.5px rgba(70, 62, 52, 0.6);
 }
 
 /* --- Sound toggle --------------------------------------------------------- */

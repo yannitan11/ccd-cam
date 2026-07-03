@@ -60,6 +60,8 @@ Want to dial the look? Everything lives in `js/config.js` (`GRADE`, `LIVE_FILTER
   the backdrop to close. Greyed out until your first photo. See `js/play.js`.
 - **Send** (top toolbar) → download the whole collage as a PNG. Greyed out until you've
   taken your first photo, then it lights up. See `js/collage.js`.
+- **Paper switcher** (bottom-left swatches) → **blue grid / red grid / plain** background; the
+  choice is saved in `localStorage` and applied before first paint (no flash).
 - **🔇 / 🔊** bottom-right toggles a synthesized shutter click (muted by default, never autoplays).
 
 ## Not in v1 (future scope)

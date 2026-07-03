@@ -156,6 +156,28 @@ function playShutterSound() {
   click(now + 0.05, 700, 0.05, 0.12);
 }
 
+// --- Background paper switcher ----------------------------------------------
+
+const PAPER_KEY = 'ccdcam:paper';
+const paperSwitch = $('#paper-switch');
+
+function applyPaper(paper) {
+  document.documentElement.dataset.paper = paper;
+  for (const b of paperSwitch.querySelectorAll('.swatch')) {
+    b.setAttribute('aria-pressed', String(b.dataset.paper === paper));
+  }
+}
+
+// The head script already set the initial value; reflect it in the swatches.
+applyPaper(document.documentElement.dataset.paper || 'blue');
+
+paperSwitch.addEventListener('click', (e) => {
+  const btn = e.target.closest('.swatch');
+  if (!btn) return;
+  applyPaper(btn.dataset.paper);
+  try { localStorage.setItem(PAPER_KEY, btn.dataset.paper); } catch (_) {}
+});
+
 // --- Go ---------------------------------------------------------------------
 
 camera.start();

@@ -9,6 +9,11 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=VT323&family=Nunito:wght@600;700;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
+  <!-- Apply the saved paper style before first paint (no flash) -->
+  <script>
+    try { document.documentElement.dataset.paper = localStorage.getItem('ccdcam:paper') || 'blue'; }
+    catch (e) { document.documentElement.dataset.paper = 'blue'; }
+  </script>
 </head>
 <body>
   <!-- Hand-drawn doodles scattered on the "paper" (decorative) -->
@@ -112,6 +117,13 @@
       </div>
     </div>
   </main>
+
+  <!-- Background paper switcher -->
+  <div id="paper-switch" class="paper-switch" role="group" aria-label="Background style">
+    <button class="swatch swatch--blue" type="button" data-paper="blue" aria-label="Blue grid paper"></button>
+    <button class="swatch swatch--red" type="button" data-paper="red" aria-label="Red grid paper"></button>
+    <button class="swatch swatch--plain" type="button" data-paper="plain" aria-label="Plain paper"></button>
+  </div>
 
   <!-- Sound toggle (muted by default, never autoplays) -->
   <button id="sound-toggle" class="sound-toggle" type="button" aria-pressed="false" aria-label="Toggle shutter sound">🔇</button>
