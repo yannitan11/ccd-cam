@@ -575,6 +575,11 @@ button.btn-round:disabled { opacity: 0.85; }
 }
 .play.is-open { opacity: 1; }
 body.play-open { overflow: hidden; }
+/* The hidden attribute must win over display:flex, or this invisible
+   full-screen overlay eats every click on the page. Also stay click-through
+   until it's actually open (covers the fade-in/out windows). */
+.play[hidden] { display: none; }
+.play:not(.is-open) { pointer-events: none; }
 
 .play__frame {
   margin: 0;
