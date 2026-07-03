@@ -4,6 +4,7 @@ import { CameraFeed, CAMERA_STATE } from './camera.js';
 import { Capturer } from './capture.js';
 import { PolaroidBoard } from './polaroid.js';
 import { exportCollage } from './collage.js';
+import { PlayMode } from './play.js';
 
 const $ = (sel) => document.querySelector(sel);
 
@@ -19,9 +20,12 @@ const els = {
   prints: $('#prints'),
   soundToggle: $('#sound-toggle'),
   sendTab: $('#send-tab'),
+  playTab: $('#play-tab'),
+  playbackBtn: $('#playback-btn'),
 };
 
 const board = new PolaroidBoard(els.prints, els.camera);
+const play = new PlayMode(board);
 
 const capturer = new Capturer(
   { video: els.video, lcd: els.lcd, flash: els.flash, shutterBtn: els.shutter },
@@ -62,18 +66,28 @@ function clearLcdMessage() {
 // --- Capture triggers -------------------------------------------------------
 
 async function shoot() {
-  if (!camera.isLive || capturer.busy) return;
+  if (play.isOpen || !camera.isLive || capturer.busy) return;
   const dataUrl = await capturer.capture();
   if (dataUrl) {
     board.add(dataUrl);
     els.hint.classList.remove('is-visible');
-    // First memory unlocks the Send (download collage) tab.
+    // First memory unlocks the Play + Send tabs (and the camera's playback button).
     if (els.sendTab.disabled) {
       els.sendTab.disabled = false;
       els.sendTab.classList.add('tab--ready');
+      els.playTab.disabled = false;
+      els.playTab.classList.add('tab--ready');
+      els.playbackBtn.disabled = false;
+      els.playbackBtn.classList.add('btn-round--live');
     }
   }
 }
+
+// --- Play: review captured prints -------------------------------------------
+
+const openPlay = () => play.show();
+els.playTab.addEventListener('click', () => { if (!els.playTab.disabled) openPlay(); });
+els.playbackBtn.addEventListener('click', () => { if (!els.playbackBtn.disabled) openPlay(); });
 
 // --- Send: download the collage as a PNG ------------------------------------
 
