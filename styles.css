@@ -185,6 +185,7 @@ body::after {
   position: relative;
   z-index: 20;
   width: min(410px, 92vw);
+  cursor: pointer; /* the whole camera is a shutter */
 }
 
 .camera__body {

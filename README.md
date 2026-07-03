@@ -53,7 +53,8 @@ Want to dial the look? Everything lives in `js/config.js` (`GRADE`, `LIVE_FILTER
 
 ## Controls
 
-- **Shutter button** (top edge) or **tap the LCD** or **Spacebar** → capture.
+- **Tap anywhere on the camera** (the shutter, the LCD, the whole body) or **Spacebar** →
+  capture. The playback ▶ button opts out (it opens Play); a tap while the camera is errored retries.
 - **Drag** any print to rearrange; **click** a print to peek (enlarge), click again to return.
 - **Play** (top toolbar, or the camera's own ▶ button) → review your shots full-size in a
   lightbox: ◀ ▶ / arrow keys to flip, a Slideshow button (or Space) to auto-advance, Esc or

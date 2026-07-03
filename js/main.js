@@ -103,10 +103,12 @@ els.sendTab.addEventListener('click', async () => {
   }
 });
 
-// Shutter button (primary) + whole LCD (secondary) both fire the same action.
-els.shutter.addEventListener('click', shoot);
-els.lcd.addEventListener('click', () => {
-  // If the camera errored, an LCD tap retries instead of shooting.
+// Tap anywhere on the camera to shoot — the shutter, the LCD, and the whole
+// body are all one big shutter. Two areas opt out: the playback button (once
+// enabled it opens Play), and any tap while the camera is in an error state
+// (that retries instead of shooting).
+els.camera.addEventListener('click', (e) => {
+  if (!els.playbackBtn.disabled && e.target.closest('#playback-btn')) return;
   if (els.lcdState.dataset.retry) {
     clearLcdMessage();
     camera.retry();
