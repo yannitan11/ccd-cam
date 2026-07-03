@@ -42,6 +42,7 @@ export function gradeImageData(imageData) {
     grainAmount,
     vignette,
     vignetteFeather,
+    flash,
     bloom,
     bloomThreshold,
   } = GRADE;
@@ -93,17 +94,21 @@ export function gradeImageData(imageData) {
         b += n;
       }
 
-      // 7. Vignette: soft radial darkening.
-      if (vignette) {
+      // 7 + 8. Vignette (darken edges) and flash (brighten centre) combined —
+      // together they give the hard little-flash falloff of an old CCD.
+      if (vignette || flash) {
         const dist = Math.hypot(x - cx, y - cy) / maxDist;
-        if (dist > vignetteFeather) {
-          const t =
-            (dist - vignetteFeather) / (1 - vignetteFeather); // 0..1
-          const dark = 1 - vignette * t * t;
-          r *= dark;
-          g *= dark;
-          b *= dark;
+        let mul = 1;
+        if (vignette && dist > vignetteFeather) {
+          const t = (dist - vignetteFeather) / (1 - vignetteFeather); // 0..1
+          mul *= 1 - vignette * t * t;
         }
+        if (flash) {
+          mul *= 1 + flash * (1 - dist) * (1 - dist); // brightest at centre
+        }
+        r *= mul;
+        g *= mul;
+        b *= mul;
       }
 
       data[i] = clamp(r);

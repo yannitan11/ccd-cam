@@ -28,10 +28,11 @@ Preview (Claude Code sandbox): `./preview.sh "CCD Cam" 8130` → config `ccd-cam
 - **Live look** (`styles.css`): a cheap CSS `filter` chain on the `<video>`, plus animated
   grain and a radial vignette overlaid on the LCD.
 - **Baked grade** (`js/grade.js`): on capture the frame is drawn to an offscreen canvas
-  and processed pixel-by-pixel — warm white balance, lifted/matte blacks with a warm
-  shadow tint, a gentle filmic S-curve, slight desaturation, Classic-Chrome split tone,
-  film grain, vignette, and a touch of highlight bloom. This is what persists in the
-  exported JPEG (CSS filters don't).
+  and processed pixel-by-pixel for a retro-CCD look — warm white balance, lifted/matte
+  blacks with a warm shadow tint, a punchy S-curve, Classic-Chrome split tone, heavy
+  sensor grain, an on-camera-flash falloff (bright centre, dark corners) with blown-highlight
+  bloom/halation. This is what persists in the exported JPEG (CSS filters don't). All the
+  knobs live in `GRADE` in `js/config.js`.
 - **Selfie mirroring:** both preview and print are mirrored so the print matches what you
   saw in the viewfinder.
 
@@ -61,9 +62,10 @@ Want to dial the look? Everything lives in `js/config.js` (`GRADE`, `LIVE_FILTER
   the backdrop to close. Greyed out until your first photo. See `js/play.js`.
 - **Send** (top toolbar) → download the whole collage as a PNG. Greyed out until you've
   taken your first photo, then it lights up. See `js/collage.js`.
-- **Paper switcher** (bottom-left swatches) → **blue grid / red grid / wavy grid / plain**
-  background; the choice is saved in `localStorage` and applied before first paint (no flash).
-  The wavy grid is an SVG turbulence displacement filter warping a graph pattern.
+- **Paper switcher** (bottom-left swatches) → **blue grid / red grid / wavy grid / crumpled /
+  plain** background; the choice is saved in `localStorage` and applied before first paint (no
+  flash). The wavy grid warps a graph pattern with an SVG displacement filter; the crumpled
+  paper is baked from `feTurbulence` + `feDiffuseLighting` (crease shadows).
 - **🔇 / 🔊** bottom-right toggles a synthesized shutter click (muted by default, never autoplays).
 
 ## Not in v1 (future scope)

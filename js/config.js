@@ -23,32 +23,38 @@ export const GRADE = {
   blackLift: 18,               // 0..255 added floor
   shadowTint: { r: 14, g: 8, b: 2 }, // warm brown pushed into shadows
 
-  // 3. Gentle filmic S-curve. `contrast` is subtle on purpose.
-  contrast: 0.14,              // 0 = none, ~0.3 = punchy
+  // 3. Retro CCD S-curve. Punchier than a soft film curve.
+  contrast: 0.20,              // 0 = none, ~0.3 = punchy
   pivot: 118,                  // tone pivot (0..255)
 
   // 4. Global desaturation, but keep warm tones rich.
-  desaturate: 0.13,            // fraction pulled toward luminance
+  desaturate: 0.10,            // fraction pulled toward luminance
 
   // 5. Split tone: teal-green in shadows, golden in highlights.
   splitShadow: { r: -6, g: 4, b: 6 },
   splitHighlight: { r: 10, g: 6, b: -8 },
 
-  // 6. Film grain (additive, per-pixel).
-  grainAmount: 12,             // +/- range of the noise
+  // 6. Film/sensor grain (additive, per-pixel). Heavier for the CCD noise look.
+  grainAmount: 26,             // +/- range of the noise
 
   // 7. Vignette: soft radial darkening baked in.
-  vignette: 0.32,              // 0..1 strength at the corners
-  vignetteFeather: 0.55,       // where the falloff starts (0..1 of radius)
+  vignette: 0.40,              // 0..1 strength at the corners
+  vignetteFeather: 0.5,        // where the falloff starts (0..1 of radius)
 
-  // 8. Subtle highlight bloom/halation.
-  bloom: 0.10,                 // 0 disables
-  bloomThreshold: 205,         // luminance above which highlights glow
+  // 8. On-camera flash: brighten toward the centre (inverse vignette) so shots
+  //    read like they were lit by a hard little built-in flash.
+  flash: 0.16,                 // 0 disables; center brightness lift
+
+  // 9. Highlight bloom / halation — blown-out flash highlights glow.
+  bloom: 0.26,                 // 0 disables
+  bloomThreshold: 178,         // luminance above which highlights glow
 };
 
 // Live-preview CSS filter chain (cheap; matches the baked look loosely).
+// Punchier + warmer for the retro CCD viewfinder. Kept in sync with the
+// .lcd__video filter in styles.css.
 export const LIVE_FILTER =
-  'contrast(1.06) saturate(0.88) brightness(1.04) sepia(0.14) hue-rotate(-6deg)';
+  'contrast(1.13) saturate(0.96) brightness(1.06) sepia(0.12) hue-rotate(-6deg)';
 
 export const POLAROID = {
   minRotation: -12,
