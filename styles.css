@@ -21,6 +21,12 @@
   --shadow-soft: 0 18px 40px -18px rgba(60, 50, 40, 0.45);
   --font-mono: 'VT323', ui-monospace, monospace;
   --font-ui: 'Nunito', system-ui, -apple-system, sans-serif;
+
+  /* Graph-paper background. Swap --grid/--grid-strong to e.g. a soft red
+     (rgba(198,90,90,...)) for a different notebook vibe. */
+  --grid: rgba(92, 118, 196, 0.13);
+  --grid-strong: rgba(92, 118, 196, 0.22);
+  --grid-size: 27px;
 }
 
 * { box-sizing: border-box; }
@@ -33,12 +39,40 @@ html, body {
 body {
   font-family: var(--font-ui);
   color: var(--ink);
-  background:
-    radial-gradient(120% 90% at 50% 0%, #f4f1ea 0%, var(--bg) 55%, #e4e1db 100%);
+  background-color: var(--bg);
+  background-image:
+    repeating-linear-gradient(0deg, transparent 0 calc(var(--grid-size) - 1px), var(--grid) calc(var(--grid-size) - 1px) var(--grid-size)),
+    repeating-linear-gradient(90deg, transparent 0 calc(var(--grid-size) - 1px), var(--grid) calc(var(--grid-size) - 1px) var(--grid-size)),
+    repeating-linear-gradient(0deg, transparent 0 calc(var(--grid-size) * 5 - 1.5px), var(--grid-strong) calc(var(--grid-size) * 5 - 1.5px) calc(var(--grid-size) * 5)),
+    repeating-linear-gradient(90deg, transparent 0 calc(var(--grid-size) * 5 - 1.5px), var(--grid-strong) calc(var(--grid-size) * 5 - 1.5px) calc(var(--grid-size) * 5)),
+    radial-gradient(120% 90% at 50% 0%, #f6f2ea 0%, var(--bg) 55%, #e6e2da 100%);
+  background-attachment: fixed;
   overflow-x: hidden;
   min-height: 100dvh;
   -webkit-font-smoothing: antialiased;
 }
+
+/* Hand-drawn doodles scattered on the paper */
+.paper-doodles {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+.doodle {
+  position: absolute;
+  width: 62px;
+  height: 62px;
+  opacity: 0.4;
+  filter: drop-shadow(0 1px 0 rgba(255, 255, 255, 0.5));
+}
+.doodle--flower1 { top: 8%; left: 6%; transform: rotate(-10deg); }
+.doodle--star1 { top: 15%; right: 9%; width: 54px; transform: rotate(12deg); }
+.doodle--cherry { top: 46%; left: 4%; width: 66px; transform: rotate(-6deg); }
+.doodle--sparkle { top: 40%; right: 5%; width: 46px; transform: rotate(8deg); }
+.doodle--heart { bottom: 10%; left: 9%; width: 56px; transform: rotate(-12deg); }
+.doodle--flower2 { bottom: 8%; right: 7%; transform: rotate(14deg); }
+.doodle--star2 { bottom: 26%; right: 16%; width: 40px; opacity: 0.32; transform: rotate(-8deg); }
 
 /* Subtle paper grain over the whole scene */
 body::after {
