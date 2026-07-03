@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover" />
+  <title>CCD Cam</title>
+  <meta name="description" content="A cozy 2005 digital camera photo booth — snap warm, grainy memories." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=VT323&family=Nunito:wght@600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <!-- Decorative mode toolbar (Future scope; Remember active in v1) -->
+  <nav class="toolbar" aria-label="Modes (decorative)">
+    <button class="tab" type="button" disabled>▤ <span>Bloom</span></button>
+    <button class="tab" type="button" disabled>▨ <span>Isolate</span></button>
+    <button class="tab" type="button" disabled>♫ <span>Play</span></button>
+    <button class="tab tab--active" type="button" aria-current="true">▣ <span>Remember</span></button>
+    <button class="tab" type="button" disabled>➜ <span>Send</span></button>
+  </nav>
+
+  <main id="stage" class="stage">
+    <!-- Prints scatter here, behind the camera -->
+    <div id="prints" class="prints" aria-live="polite"></div>
+
+    <!-- The camera mockup -->
+    <div id="camera" class="camera" data-state="idle">
+      <!-- Shutter, on the top edge, right side -->
+      <button id="shutter" class="shutter" type="button" aria-label="Take photo">
+        <span class="shutter__nub"></span>
+      </button>
+
+      <div class="camera__body">
+        <!-- LCD (the star) -->
+        <button id="lcd" class="lcd" type="button" aria-label="Viewfinder — tap to capture">
+          <div class="lcd__bezel">
+            <video id="feed" class="lcd__video" playsinline autoplay muted></video>
+            <div class="lcd__grain" aria-hidden="true"></div>
+            <div class="lcd__vignette" aria-hidden="true"></div>
+            <div class="lcd__sheen" aria-hidden="true"></div>
+            <div id="flash" class="lcd__flash" aria-hidden="true"></div>
+            <div id="lcd-state" class="lcd__state" role="status"></div>
+            <div id="hint" class="lcd__hint">tap the shutter</div>
+          </div>
+        </button>
+
+        <!-- Control cluster -->
+        <div class="controls">
+          <div class="controls__top">
+            <span class="btn-round" aria-hidden="true">▶</span>
+            <span class="btn-round" aria-hidden="true">◉</span>
+          </div>
+
+          <div class="dpad" aria-hidden="true">
+            <span class="dpad__arrow dpad__arrow--up">▲</span>
+            <span class="dpad__arrow dpad__arrow--right">▶</span>
+            <span class="dpad__arrow dpad__arrow--down">▼</span>
+            <span class="dpad__arrow dpad__arrow--left">◀</span>
+            <span class="dpad__set">SET</span>
+          </div>
+          <div class="controls__disp">DISP</div>
+
+          <div class="controls__ovals">
+            <span class="btn-oval">MENU</span>
+            <span class="btn-oval">BS</span>
+          </div>
+
+          <div class="controls__ports">
+            <span class="port"><span class="port__dot"></span>USB</span>
+            <span class="port"><span class="port__dot"></span>CHARGE</span>
+          </div>
+        </div>
+
+        <!-- Wordmark -->
+        <div class="wordmark" aria-hidden="true">⋲XILIM</div>
+
+        <!-- Kawaii deco stickers -->
+        <span class="deco deco--heart" aria-hidden="true">💗</span>
+        <span class="deco deco--star1" aria-hidden="true">✦</span>
+        <span class="deco deco--star2" aria-hidden="true">★</span>
+        <span class="deco deco--flower" aria-hidden="true">🌸</span>
+        <span class="deco deco--cherry" aria-hidden="true">🍒</span>
+        <span class="deco deco--sparkle" aria-hidden="true">✧</span>
+      </div>
+    </div>
+  </main>
+
+  <!-- Sound toggle (muted by default, never autoplays) -->
+  <button id="sound-toggle" class="sound-toggle" type="button" aria-pressed="false" aria-label="Toggle shutter sound">🔇</button>
+
+  <script type="module" src="js/main.js"></script>
+</body>
+</html>
