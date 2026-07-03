@@ -3,6 +3,7 @@
 import { CameraFeed, CAMERA_STATE } from './camera.js';
 import { Capturer } from './capture.js';
 import { PolaroidBoard } from './polaroid.js';
+import { exportCollage } from './collage.js';
 
 const $ = (sel) => document.querySelector(sel);
 
@@ -17,6 +18,7 @@ const els = {
   hint: $('#hint'),
   prints: $('#prints'),
   soundToggle: $('#sound-toggle'),
+  sendTab: $('#send-tab'),
 };
 
 const board = new PolaroidBoard(els.prints, els.camera);
@@ -65,8 +67,27 @@ async function shoot() {
   if (dataUrl) {
     board.add(dataUrl);
     els.hint.classList.remove('is-visible');
+    // First memory unlocks the Send (download collage) tab.
+    if (els.sendTab.disabled) {
+      els.sendTab.disabled = false;
+      els.sendTab.classList.add('tab--ready');
+    }
   }
 }
+
+// --- Send: download the collage as a PNG ------------------------------------
+
+els.sendTab.addEventListener('click', async () => {
+  if (els.sendTab.disabled || els.sendTab.dataset.busy) return;
+  els.sendTab.dataset.busy = '1';
+  els.sendTab.classList.add('tab--sending');
+  try {
+    await exportCollage(board);
+  } finally {
+    els.sendTab.classList.remove('tab--sending');
+    delete els.sendTab.dataset.busy;
+  }
+});
 
 // Shutter button (primary) + whole LCD (secondary) both fire the same action.
 els.shutter.addEventListener('click', shoot);

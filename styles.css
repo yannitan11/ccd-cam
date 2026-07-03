@@ -89,6 +89,25 @@ body::after {
   box-shadow: 0 2px 8px -3px rgba(60, 50, 40, 0.3);
 }
 
+/* Send tab, unlocked after the first capture */
+.tab--ready {
+  cursor: pointer;
+  opacity: 1;
+  color: #7a5a44;
+  background: #fff;
+  border-color: rgba(198, 124, 76, 0.55);
+  box-shadow: 0 2px 8px -3px rgba(120, 80, 40, 0.28);
+}
+.tab--ready:hover {
+  border-color: rgba(198, 124, 76, 0.9);
+  transform: translateY(-1px);
+}
+.tab--ready:active { transform: translateY(0); }
+.tab--sending {
+  opacity: 0.7;
+  cursor: progress;
+}
+
 /* --- Stage ---------------------------------------------------------------- */
 
 .stage {

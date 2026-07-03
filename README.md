@@ -55,10 +55,12 @@ Want to dial the look? Everything lives in `js/config.js` (`GRADE`, `LIVE_FILTER
 
 - **Shutter button** (top edge) or **tap the LCD** or **Spacebar** → capture.
 - **Drag** any print to rearrange; **click** a print to peek (enlarge), click again to return.
+- **Send** (top toolbar) → download the whole collage as a PNG. Greyed out until you've
+  taken your first photo, then it lights up. See `js/collage.js`.
 - **🔇 / 🔊** bottom-right toggles a synthesized shutter click (muted by default, never autoplays).
 
 ## Not in v1 (future scope)
 
-Toolbar modes (Bloom / Isolate / Play / Remember / Send) render as decorative tabs with
-**Remember** active. Double-exposure compositing, save/export, and a filter picker are
-designed-for but not built.
+Toolbar modes **Bloom / Isolate / Play** render as decorative tabs; **Remember** is the
+live capture mode and **Send** downloads the collage. Double-exposure compositing and a
+filter picker are designed-for but not built.
