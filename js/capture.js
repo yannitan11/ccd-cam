@@ -31,27 +31,33 @@ export class Capturer {
     if (!v || !v.videoWidth || !v.videoHeight) return null;
 
     this.busy = true;
-    this.onClick();
+    try {
+      this.onClick();
 
-    // 1. Shutter button depress.
-    this.shutterBtn?.classList.add('is-pressed');
+      // 1. Shutter button depress.
+      this.shutterBtn?.classList.add('is-pressed');
 
-    // 2. White flash, then a brief black frame (shutter closed).
-    this.flash.classList.add('flash--white');
-    await wait(CAPTURE.flashMs);
-    this.flash.classList.remove('flash--white');
-    this.flash.classList.add('flash--black');
+      // 2. White flash, then a brief black frame (shutter closed).
+      this.flash.classList.add('flash--white');
+      await wait(CAPTURE.flashMs);
+      this.flash.classList.remove('flash--white');
+      this.flash.classList.add('flash--black');
 
-    // 3. Freeze + grade the frame while the LCD is dark.
-    const dataUrl = this._grabAndGrade(v);
-    await wait(CAPTURE.blackoutMs);
+      // 3. Freeze + grade the frame while the LCD is dark.
+      const dataUrl = this._grabAndGrade(v);
+      await wait(CAPTURE.blackoutMs);
 
-    this.flash.classList.remove('flash--black');
-    this.shutterBtn?.classList.remove('is-pressed');
-    await wait(CAPTURE.freezeMs);
+      this.flash.classList.remove('flash--black');
+      this.shutterBtn?.classList.remove('is-pressed');
+      await wait(CAPTURE.freezeMs);
 
-    this.busy = false;
-    return dataUrl;
+      return dataUrl;
+    } finally {
+      // Always reset — a thrown grade/export must never wedge the shutter shut.
+      this.flash.classList.remove('flash--white', 'flash--black');
+      this.shutterBtn?.classList.remove('is-pressed');
+      this.busy = false;
+    }
   }
 
   _grabAndGrade(v) {
