@@ -15,13 +15,14 @@ export const CAPTURE = {
 // Fujifilm-style grade (Classic Chrome / Superia-ish).
 // All values are baked into the captured pixels — see js/grade.js.
 export const GRADE = {
-  // 1. Warm white-balance: per-channel multipliers.
-  wb: { r: 1.06, g: 1.015, b: 0.94 },
+  // 1. Warm white-balance: per-channel multipliers. Kept only lightly warm so
+  //    whites don't go yellow.
+  wb: { r: 1.035, g: 1.008, b: 0.985 },
 
   // 2. Faded / matte blacks: lift the black point so shadows never hit 0,
   //    with a faint warm-brown tint in the shadows.
   blackLift: 18,               // 0..255 added floor
-  shadowTint: { r: 14, g: 8, b: 2 }, // warm brown pushed into shadows
+  shadowTint: { r: 8, g: 6, b: 5 }, // faint warm-brown in shadows (less yellow)
 
   // 3. Retro CCD S-curve. Punchier than a soft film curve.
   contrast: 0.20,              // 0 = none, ~0.3 = punchy
@@ -30,9 +31,9 @@ export const GRADE = {
   // 4. Global desaturation, but keep warm tones rich.
   desaturate: 0.10,            // fraction pulled toward luminance
 
-  // 5. Split tone: teal-green in shadows, golden in highlights.
+  // 5. Split tone: teal-green in shadows, softly golden in highlights.
   splitShadow: { r: -6, g: 4, b: 6 },
-  splitHighlight: { r: 10, g: 6, b: -8 },
+  splitHighlight: { r: 5, g: 3, b: -3 },
 
   // 6. Film/sensor grain (additive, per-pixel). Heavier for the CCD noise look.
   grainAmount: 26,             // +/- range of the noise
@@ -57,8 +58,8 @@ export const FILMS = [
   {
     id: 'classic',
     name: 'Classic',
-    dot: '#c9853f',
-    live: 'contrast(1.13) saturate(0.96) brightness(1.06) sepia(0.12) hue-rotate(-6deg)',
+    dot: '#c98a5a',
+    live: 'contrast(1.12) saturate(0.98) brightness(1.06) sepia(0.05) hue-rotate(-3deg)',
     grade: GRADE,
   },
   {
