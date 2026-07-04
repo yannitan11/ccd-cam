@@ -12,6 +12,15 @@ export const CAPTURE = {
   maxLongEdge: 1280,
 };
 
+// Gentle "beauty" pass baked on capture: soft-focus skin smoothing + a soft
+// brightening lift. Flatters the subject without wrecking the CCD look, and is
+// colour-neutral so it works for Mono too. Set glow/brighten to 0 to disable.
+export const BEAUTIFY = {
+  glow: 0.32,       // opacity of a lighten-blended blurred copy (smooths skin, adds glow)
+  blurFrac: 0.011,  // blur radius as a fraction of the frame's long edge
+  brighten: 0.3,    // opacity of a white soft-light lift (clean, bright complexion)
+};
+
 // Fujifilm-style grade (Classic Chrome / Superia-ish).
 // All values are baked into the captured pixels — see js/grade.js.
 export const GRADE = {

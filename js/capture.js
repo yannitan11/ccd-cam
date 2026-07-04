@@ -1,7 +1,42 @@
 // CCD Cam — capture orchestration: shutter feel + grab frame + grade + export.
 
-import { CAPTURE } from './config.js';
+import { CAPTURE, BEAUTIFY } from './config.js';
 import { gradeImageData } from './grade.js';
+
+const clampBlur = (n) => Math.max(1, Math.round(n));
+
+/**
+ * Subtle beauty pass on the (already-graded) canvas: a lighten-blended blurred
+ * copy softens skin texture and adds a soft-focus glow, then a white soft-light
+ * fill lifts the complexion. Colour-neutral, so it's safe for Mono too.
+ */
+function beautify(ctx, canvas) {
+  const w = canvas.width;
+  const h = canvas.height;
+
+  if (BEAUTIFY.glow) {
+    const blur = clampBlur(Math.max(w, h) * BEAUTIFY.blurFrac);
+    ctx.save();
+    ctx.globalCompositeOperation = 'lighten';
+    ctx.globalAlpha = BEAUTIFY.glow;
+    ctx.filter = `blur(${blur}px)`;
+    ctx.drawImage(canvas, 0, 0, w, h);
+    ctx.restore();
+  }
+
+  if (BEAUTIFY.brighten) {
+    ctx.save();
+    ctx.globalCompositeOperation = 'soft-light';
+    ctx.globalAlpha = BEAUTIFY.brighten;
+    ctx.fillStyle = '#ffffff';
+    ctx.fillRect(0, 0, w, h);
+    ctx.restore();
+  }
+
+  ctx.filter = 'none';
+  ctx.globalAlpha = 1;
+  ctx.globalCompositeOperation = 'source-over';
+}
 
 const wait = (ms) => new Promise((r) => setTimeout(r, ms));
 
@@ -85,6 +120,9 @@ export class Capturer {
     const img = ctx.getImageData(0, 0, w, h);
     gradeImageData(img, this.film);
     ctx.putImageData(img, 0, 0);
+
+    // Flattering soft-focus + brighten, baked on top of the grade.
+    beautify(ctx, this.canvas);
 
     return this.canvas.toDataURL('image/jpeg', CAPTURE.jpegQuality);
   }
