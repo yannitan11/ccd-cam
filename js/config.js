@@ -44,8 +44,8 @@ export const GRADE = {
   splitShadow: { r: -6, g: 4, b: 6 },
   splitHighlight: { r: 5, g: 3, b: -3 },
 
-  // 6. Film/sensor grain (additive, per-pixel). Heavier for the CCD noise look.
-  grainAmount: 26,             // +/- range of the noise
+  // 6. Film/sensor grain (additive, per-pixel). CCD noise, kept moderate.
+  grainAmount: 16,             // +/- range of the noise
 
   // 7. Vignette: soft radial darkening baked in.
   vignette: 0.40,              // 0..1 strength at the corners
@@ -86,7 +86,7 @@ export const FILMS = [
       splitHighlight: { r: 0, g: 0, b: 0 },
       flash: 0.14,
       bloom: 0.12,
-      grainAmount: 30,
+      grainAmount: 20,
     },
   },
 ];
