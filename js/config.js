@@ -45,15 +45,15 @@ export const GRADE = {
   splitHighlight: { r: 5, g: 3, b: -3 },
 
   // 6. Film/sensor grain (additive, per-pixel). CCD noise, kept moderate.
-  grainAmount: 16,             // +/- range of the noise
+  grainAmount: 11,             // +/- range of the noise
 
   // 7. Vignette: soft radial darkening baked in.
   vignette: 0.40,              // 0..1 strength at the corners
   vignetteFeather: 0.5,        // where the falloff starts (0..1 of radius)
 
   // 8. On-camera flash: brighten toward the centre (inverse vignette) so shots
-  //    read like they were lit by a hard little built-in flash.
-  flash: 0.16,                 // 0 disables; center brightness lift
+  //    read like they were lit by a soft little built-in flash.
+  flash: 0.09,                 // 0 disables; center brightness lift
 
   // 9. Highlight bloom / halation — blown-out flash highlights glow.
   bloom: 0.26,                 // 0 disables
@@ -84,9 +84,9 @@ export const FILMS = [
       desaturate: 1,
       splitShadow: { r: 0, g: 0, b: 0 },
       splitHighlight: { r: 0, g: 0, b: 0 },
-      flash: 0.14,
+      flash: 0.09,
       bloom: 0.12,
-      grainAmount: 20,
+      grainAmount: 15,
     },
   },
 ];
