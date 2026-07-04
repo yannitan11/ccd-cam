@@ -16,9 +16,9 @@ export const CAPTURE = {
 // brightening lift. Flatters the subject without wrecking the CCD look, and is
 // colour-neutral so it works for Mono too. Set glow/brighten to 0 to disable.
 export const BEAUTIFY = {
-  glow: 0.32,       // opacity of a lighten-blended blurred copy (smooths skin, adds glow)
+  glow: 0.28,       // opacity of a lighten-blended blurred copy (smooths skin, adds glow)
   blurFrac: 0.011,  // blur radius as a fraction of the frame's long edge
-  brighten: 0.3,    // opacity of a white soft-light lift (clean, bright complexion)
+  brighten: 0.12,   // opacity of a white soft-light lift (kept low so it doesn't wash out)
 };
 
 // Fujifilm-style grade (Classic Chrome / Superia-ish).
@@ -34,7 +34,7 @@ export const GRADE = {
   shadowTint: { r: 8, g: 6, b: 5 }, // faint warm-brown in shadows (less yellow)
 
   // 3. Retro CCD S-curve. Punchier than a soft film curve.
-  contrast: 0.20,              // 0 = none, ~0.3 = punchy
+  contrast: 0.3,               // 0 = none, ~0.3 = punchy
   pivot: 118,                  // tone pivot (0..255)
 
   // 4. Global desaturation, but keep warm tones rich.
