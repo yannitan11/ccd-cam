@@ -5,6 +5,7 @@ import { Capturer } from './capture.js';
 import { PolaroidBoard } from './polaroid.js';
 import { exportCollage } from './collage.js';
 import { PlayMode } from './play.js';
+import { sceneDataUrl, cycleScene, randomizeScene } from './effects.js';
 
 const $ = (sel) => document.querySelector(sel);
 
@@ -22,6 +23,10 @@ const els = {
   sendTab: $('#send-tab'),
   playTab: $('#play-tab'),
   playbackBtn: $('#playback-btn'),
+  lcdEffect: $('#lcd-effect'),
+  bloomTab: $('#bloom-tab'),
+  isolateTab: $('#isolate-tab'),
+  rememberTab: $('#remember-tab'),
 };
 
 const board = new PolaroidBoard(els.prints, els.camera);
@@ -157,6 +162,52 @@ function playShutterSound() {
   click(now, 1200, 0.03, 0.15);
   click(now + 0.05, 700, 0.05, 0.12);
 }
+
+// --- Capture modes: Remember / Bloom / Isolate ------------------------------
+
+const MODE_KEY = 'ccdcam:mode';
+const modeTabs = {
+  remember: els.rememberTab,
+  bloom: els.bloomTab,
+  isolate: els.isolateTab,
+};
+let captureMode = localStorage.getItem(MODE_KEY) || 'remember';
+if (!modeTabs[captureMode]) captureMode = 'remember';
+
+function refreshEffectOverlay() {
+  const eff = els.lcdEffect;
+  eff.className = 'lcd__effect';
+  eff.style.backgroundImage = '';
+  if (captureMode === 'bloom') {
+    eff.classList.add('is-bloom');
+  } else if (captureMode === 'isolate') {
+    eff.classList.add('is-isolate');
+    eff.style.backgroundImage = `url("${sceneDataUrl()}")`;
+  }
+}
+
+function applyMode(mode, { cycle = false } = {}) {
+  if (mode === 'isolate') {
+    if (captureMode !== 'isolate') randomizeScene();
+    else if (cycle) cycleScene();
+  }
+  captureMode = mode;
+  capturer.mode = mode;
+  for (const [key, tab] of Object.entries(modeTabs)) {
+    const on = key === mode;
+    tab.classList.toggle('tab--active', on);
+    if (on) tab.setAttribute('aria-current', 'true');
+    else tab.removeAttribute('aria-current');
+  }
+  refreshEffectOverlay();
+  try { localStorage.setItem(MODE_KEY, mode); } catch (_) {}
+}
+
+els.rememberTab.addEventListener('click', () => applyMode('remember'));
+els.bloomTab.addEventListener('click', () => applyMode('bloom'));
+els.isolateTab.addEventListener('click', () => applyMode('isolate', { cycle: true }));
+
+applyMode(captureMode); // reflect the saved/default mode + set capturer.mode
 
 // --- Background paper switcher ----------------------------------------------
 
