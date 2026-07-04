@@ -12,9 +12,9 @@ const clamp = (v) => (v < 0 ? 0 : v > 255 ? 255 : v);
 // Precomputed per-channel lookup tables for the stages that only depend on the
 // input value (WB, black-lift, S-curve). Split-tone / grain / vignette are
 // spatial or per-pixel and applied in the main loop.
-function buildLut(mult, tint) {
+function buildLut(mult, tint, grade) {
   const lut = new Uint8ClampedArray(256);
-  const { blackLift, contrast, pivot } = GRADE;
+  const { blackLift, contrast, pivot } = grade;
   for (let i = 0; i < 256; i++) {
     // 1. Warm white-balance.
     let v = i * mult;
@@ -30,10 +30,11 @@ function buildLut(mult, tint) {
 }
 
 /**
- * Grade an ImageData in place and return it.
+ * Grade an ImageData in place and return it, using the given film preset
+ * (defaults to the base GRADE / "Classic" look).
  * `width`/`height` come from the ImageData so we can compute the vignette.
  */
-export function gradeImageData(imageData) {
+export function gradeImageData(imageData, grade = GRADE) {
   const { data, width, height } = imageData;
   const {
     desaturate,
@@ -45,11 +46,11 @@ export function gradeImageData(imageData) {
     flash,
     bloom,
     bloomThreshold,
-  } = GRADE;
+  } = grade;
 
-  const lutR = buildLut(GRADE.wb.r, GRADE.shadowTint.r);
-  const lutG = buildLut(GRADE.wb.g, GRADE.shadowTint.g);
-  const lutB = buildLut(GRADE.wb.b, GRADE.shadowTint.b);
+  const lutR = buildLut(grade.wb.r, grade.shadowTint.r, grade);
+  const lutG = buildLut(grade.wb.g, grade.shadowTint.g, grade);
+  const lutB = buildLut(grade.wb.b, grade.shadowTint.b, grade);
 
   const cx = width / 2;
   const cy = height / 2;

@@ -18,12 +18,13 @@
 <body>
   <!-- Decorative mode toolbar (Future scope; Remember active in v1) -->
   <nav class="toolbar" aria-label="Modes (decorative)">
-    <button id="bloom-tab" class="tab tab--mode" type="button" aria-label="Bloom — dreamy glow">▤ <span>Bloom</span></button>
-    <button id="isolate-tab" class="tab tab--mode" type="button" aria-label="Isolate — double exposure (click again to change scene)">▨ <span>Isolate</span></button>
     <button id="play-tab" class="tab" type="button" disabled aria-label="Play back your photos">♫ <span>Play</span></button>
-    <button id="remember-tab" class="tab tab--mode tab--active" type="button" aria-current="true">▣ <span>Remember</span></button>
+    <button class="tab tab--active" type="button" aria-current="true">▣ <span>Remember</span></button>
     <button id="send-tab" class="tab" type="button" disabled aria-label="Download collage as PNG">➜ <span>Send</span></button>
   </nav>
+
+  <!-- Film simulation picker (chips injected from FILMS) -->
+  <div id="filmstrip" class="filmstrip" role="group" aria-label="Film simulation"></div>
 
   <main id="stage" class="stage">
     <!-- Prints scatter here, behind the camera -->
@@ -41,7 +42,6 @@
         <button id="lcd" class="lcd" type="button" aria-label="Viewfinder — tap to capture">
           <div class="lcd__bezel">
             <video id="feed" class="lcd__video" playsinline autoplay muted></video>
-            <div id="lcd-effect" class="lcd__effect" aria-hidden="true"></div>
             <div class="lcd__grain" aria-hidden="true"></div>
             <div class="lcd__vignette" aria-hidden="true"></div>
             <div class="lcd__sheen" aria-hidden="true"></div>

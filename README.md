@@ -62,18 +62,17 @@ Want to dial the look? Everything lives in `js/config.js` (`GRADE`, `LIVE_FILTER
   the backdrop to close. Greyed out until your first photo. See `js/play.js`.
 - **Send** (top toolbar) → download the whole collage as a PNG. Greyed out until you've
   taken your first photo, then it lights up. See `js/collage.js`.
-- **Capture modes** (top toolbar) — **Remember** / **Bloom** / **Isolate** are mutually
-  exclusive; the active one is a black pill and the choice persists in `localStorage`.
-  **Bloom** bakes a dreamy Orton glow over the shot; **Isolate** does a double exposure,
-  screen-blending your portrait with a procedural scene (sunset / bokeh / garden) — click
-  Isolate again to cycle scenes. Live preview shows a hint of each effect. See `js/effects.js`.
+- **Film simulation picker** (chips under the toolbar) — switch the look between
+  **Classic / Chrome / Gold / Mono / Faded**. Each is a full grade preset (baked into
+  captures) plus a matching cheap live-viewfinder CSS filter; the choice persists in
+  `localStorage`. Presets live in `FILMS` in `js/config.js` and are easy to add to.
 - **Paper switcher** (bottom-left swatches) → **blue grid / red grid / wavy grid / crumpled /
   plain** background; the choice is saved in `localStorage` and applied before first paint (no
   flash). The wavy grid warps a graph pattern with an SVG displacement filter; the crumpled
   paper is baked from `feTurbulence` + `feDiffuseLighting` (crease shadows).
 - **🔇 / 🔊** bottom-right toggles a synthesized shutter click (muted by default, never autoplays).
 
-## Not in v1 (future scope)
+## Toolbar
 
-A filter picker (switchable film simulations) is designed-for but not built. The five toolbar
-tabs are all wired: **Remember / Bloom / Isolate** capture modes, **Play** review, **Send** export.
+**Remember** is the live capture mode (always active), **Play** reviews shots, and **Send**
+downloads the collage. Film look is chosen from the film-simulation picker below the toolbar.

@@ -2,7 +2,6 @@
 
 import { CAPTURE } from './config.js';
 import { gradeImageData } from './grade.js';
-import { applyBloom, applyDoubleExposure } from './effects.js';
 
 const wait = (ms) => new Promise((r) => setTimeout(r, ms));
 
@@ -18,7 +17,7 @@ export class Capturer {
     this.shutterBtn = refs.shutterBtn;
     this.onClick = onClick || (() => {});
     this.busy = false;
-    this.mode = 'remember'; // 'remember' | 'bloom' | 'isolate'
+    this.film = undefined; // active film-simulation grade preset (set by main.js)
     this.canvas = document.createElement('canvas');
     this.ctx = this.canvas.getContext('2d', { willReadFrequently: true });
   }
@@ -84,12 +83,8 @@ export class Capturer {
     ctx.restore();
 
     const img = ctx.getImageData(0, 0, w, h);
-    gradeImageData(img);
+    gradeImageData(img, this.film);
     ctx.putImageData(img, 0, 0);
-
-    // Toolbar-mode effect, baked on top of the grade.
-    if (this.mode === 'bloom') applyBloom(ctx, this.canvas);
-    else if (this.mode === 'isolate') applyDoubleExposure(ctx, this.canvas, w, h);
 
     return this.canvas.toDataURL('image/jpeg', CAPTURE.jpegQuality);
   }
